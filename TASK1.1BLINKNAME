@@ -1,0 +1,106 @@
+#include "thingProperties.h"
+
+const int ledPin = LED_BUILTIN;
+
+const int shortDuration = 200;
+const int longDuration = 3 * shortDuration;
+const int elementDelay = shortDuration;
+const int letterDelay = 3 * shortDuration;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
+
+  delay(1500);
+
+  initProperties();
+
+  ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+  
+  setDebugMessageLevel(2);
+  ArduinoCloud.printDebugInfo();
+}
+
+void loop() {
+  ArduinoCloud.update();
+
+  Serial.print("LED State: ");
+  Serial.println(ledState);
+
+  if (ledState) {
+    blinkS();
+    blinkH();
+    blinkR();
+    blinkE();
+    blinkY();
+    blinkA();
+    blinkN();
+    blinkS();
+    blinkH();
+  }
+}
+
+void onLedChange() {
+  Serial.println("LED state changed from IoT Cloud");
+}
+
+void blinkShort() {
+  digitalWrite(ledPin, HIGH);
+  delay(shortDuration);
+  digitalWrite(ledPin, LOW);
+  delay(elementDelay);
+}
+
+void blinkLong() {
+  digitalWrite(ledPin, HIGH);
+  delay(longDuration);
+  digitalWrite(ledPin, LOW);
+  delay(elementDelay);
+}
+
+void blinkS() {
+  blinkShort();
+  blinkShort();
+  blinkShort();
+  delay(letterDelay);
+}
+
+void blinkH() {
+  blinkShort();
+  blinkShort();
+  blinkShort();
+  blinkShort();
+  delay(letterDelay);
+}
+
+void blinkR() {
+  blinkShort();
+  blinkLong();
+  blinkShort();
+  delay(letterDelay);
+}
+
+void blinkE() {
+  blinkShort();
+  delay(letterDelay);
+}
+
+void blinkY() {
+  blinkLong();
+  blinkShort();
+  blinkLong();
+  blinkLong();
+  delay(letterDelay);
+}
+
+void blinkA() {
+  blinkShort();
+  blinkLong();
+  delay(letterDelay);
+}
+
+void blinkN() {
+  blinkLong();
+  blinkShort();
+  delay(letterDelay);
+}
